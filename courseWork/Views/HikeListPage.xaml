@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="courseWork.Views.HikeListPage"
+             Title="HikeListPage"
+             xmlns:vm="clr-namespace:courseWork.ViewModel"
+             xmlns:models="clr-namespace:courseWork.Models"
+             xmlns:searchHandlers="clr-namespace:courseWork.SearchHandlers"
+             x:DataType="vm:HikeViewModel">
+     <Shell.SearchHandler>
+        <searchHandlers:HikeSearchHandler 
+            Placeholder="Search Hike"
+            ShowsResults="True"
+            QueryIcon="search"
+            ClearIcon="clear"
+            NavigationRoute="HikeDetailPage"
+            Hikes="{x:Static vm:HikeViewModel.HikesListForSearch}">
+            <searchHandlers:HikeSearchHandler.ItemTemplate>
+                <DataTemplate x:DataType="models:Hike">
+                    <Grid Margin="5,10,5,10" RowDefinitions="Auto" ColumnDefinitions="40,Auto">
+                        <Image Grid.Row="0" Grid.Column="0" Source="location" HeightRequest="25" WidthRequest="25" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding Location}" FontSize="18" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </searchHandlers:HikeSearchHandler.ItemTemplate>
+        </searchHandlers:HikeSearchHandler>
+    </Shell.SearchHandler>
+    <ScrollView>
+        <StackLayout>
+            <VerticalStackLayout
+                                 Margin="10"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 IsVisible="{Binding IsLoading}">
+                <ActivityIndicator IsRunning="True"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
+                <Label Text="{Binding LoadingText}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+           <Image Source="background.png" HeightRequest="300" Margin="-10" />
+           <StackLayout Margin="10">
+                <Label Text="Hike list" FontSize="28" Margin="10,0,0,0" />
+                <Button Text="Add new trip" Command="{Binding AddUpdateHikeCommand}" HorizontalOptions="EndAndExpand" Margin="0,0,10,5" />
+
+                <CollectionView ItemsSource="{Binding Hikes}">
+                    <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10"
+                                               Orientation="Vertical"/>
+                        </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Hike">
+                            <SwipeView>
+                                <SwipeView.LeftItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Edit" IconImageSource="edit" BackgroundColor="LightBlue" 
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HikeViewModel}}, Path=MoveToEditPageCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                        <SwipeItem Text="Delete" IconImageSource="delete" BackgroundColor="Red"  
+                                                  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HikeViewModel}}, Path=DeleteHikeCommand}"
+                                            CommandParameter="{Binding Id}" />
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+                                <Frame Margin="10" Padding="10">
+                                    <Grid Margin="5" RowDefinitions="50, Auto" ColumnDefinitions="50,220,100">
+                                            <Label Grid.Column="0" Grid.Row="0" Text="Trip" FontSize="18" FontAttributes="Bold" />
+                                
+                                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding Location}" FontSize="20" FontAttributes="Bold" />
+                                         <Label LineBreakMode="WordWrap" Grid.Column="1" Grid.Row="1">
+                                             <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontSize="18" FontAttributes="Bold" Text="{Binding LengthOfHike}" />
+                                                    <Span Text=" miles"  />
+                                                </FormattedString>
+                                        </Label.FormattedText>
+                                         </Label>
+                                            <Image Margin="0,-20,0,0" WidthRequest="50" HeightRequest="50" Grid.Column="2" Grid.Row="0"  Source="complete.png"/>
+                                        </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type vm:HikeViewModel}},Path=MoveToDetailPageCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </SwipeView>
+       
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                     <CollectionView.EmptyView>
+                            <ContentView>
+                                <VerticalStackLayout HorizontalOptions="Center"
+                                                     VerticalOptions="Center">
+                                    <Label Text="No Hike Found"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Center"/>
+                                </VerticalStackLayout>
+                            </ContentView>
+                        </CollectionView.EmptyView>
+                </CollectionView>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
