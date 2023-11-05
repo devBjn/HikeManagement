@@ -4,6 +4,11 @@ namespace courseWork.Models
 {
     public class Hike
     {
+        public Hike ()
+        {
+            DateStart = DateTime.Now;
+        }
+
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string Name { get; set; }

@@ -16,7 +16,7 @@
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
                     <Label Text="Date of the hike" VerticalOptions="Center" FontSize="Subtitle" Margin="0,0,30,0"/>
-                    <DatePicker x:Name="txtDateOfHike" Format="dd/MM/yyyy" Date="{Binding OperatingHike.DateStart}"/>
+                    <DatePicker x:Name="txtDateOfHike" Format="dd/MM/yyyy"  Date="{Binding OperatingHike.DateStart}"/>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout HorizontalOptions="FillAndExpand">
                     <Label Text="Packing availabe" VerticalOptions="Center" FontSize="Subtitle" Margin="0,0,20,0" HorizontalOptions="Start"/>

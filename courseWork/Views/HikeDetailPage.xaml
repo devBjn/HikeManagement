@@ -72,7 +72,7 @@
                     <FormattedString>
                         <Span FontSize="22" FontAttributes="Bold" Text="Date" />
                         <Span FontSize="20" Text=": " />
-                        <Span FontSize="20" FontAttributes="Italic" Text="{Binding HikeDetail.DateStart}" />
+                        <Span FontSize="20" FontAttributes="Italic" Text="{Binding HikeDetail.DateStart, StringFormat='{0:dd/MM/yyyy}'}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
